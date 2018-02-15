@@ -43,6 +43,13 @@ public class FirstScene : MonoBehaviour, IClickAction, IHoverAction
             clickable: true,
             hoverable: true
         );
+
+        Button b = new Button(
+            text: "A Button",
+            x: 1,
+            y: 1
+        );
+
         /*for (int x = 0; x < menu.Length; x++)
         {
             Cell cell = Display.CellAt(0, 0 + x, 0);
