@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Example : MonoBehaviour, IClickAction, IHoverAction {
 
-	public IEnumerator Start() {
+	public IEnumerator Start(){
 
 		// wait until display has initialized
 		while (!Display.IsInitialized()) {

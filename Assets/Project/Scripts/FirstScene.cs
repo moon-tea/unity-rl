@@ -14,6 +14,7 @@ using System.Collections;
 
 public class FirstScene : MonoBehaviour, IClickAction, IHoverAction
 {
+    private Button[] menuButtons;
 
     public IEnumerator Start()
     {
@@ -25,10 +26,10 @@ public class FirstScene : MonoBehaviour, IClickAction, IHoverAction
         }
         
         // output red hello world at 10,5 on layer 0
-        string menu = "Menu:";
+        string menuStr = "Menu:";
         Vector2 menuStart = new Vector2(0, 0);  
         renderText(
-            str: menu,
+            str: menuStr,
             x: (int) menuStart.x,
             y: (int)menuStart.y,
             fgColor: Color.red,
@@ -37,17 +38,24 @@ public class FirstScene : MonoBehaviour, IClickAction, IHoverAction
         );
         renderText(
             str: "?",
-            x: (int)menuStart.x + menu.Length,
+            x: (int)menuStart.x + menuStr.Length,
             y: (int)menuStart.y,
             fgColor: Color.yellow,
             clickable: true,
             hoverable: true
         );
 
-        Button b = new Button(
+        menuButtons = new Button[2];
+        menuButtons[0] = new Button(
             text: "A Button",
             x: 1,
             y: 1
+        );
+
+        menuButtons[1] = new Button(
+            text: "Bigger Button",
+            x: 1,
+            y: 2
         );
 
         /*for (int x = 0; x < menu.Length; x++)
@@ -97,7 +105,6 @@ public class FirstScene : MonoBehaviour, IClickAction, IHoverAction
 
     public void Update()
     {
-
         // clear every cell on layer 1 with mouse click
         if (Input.GetMouseButtonDown(0))
         {
@@ -107,6 +114,17 @@ public class FirstScene : MonoBehaviour, IClickAction, IHoverAction
                 {
                     Cell cell = Display.CellAt(1, x, y);
                     cell.Clear();
+                }
+            }
+        }
+
+        if (menuButtons != null)
+        {
+            for (int i = 0; i < menuButtons.Length; i++)
+            {
+                if (menuButtons[i] != null && menuButtons[i].isDirty())
+                {
+                    menuButtons[i].render();
                 }
             }
         }

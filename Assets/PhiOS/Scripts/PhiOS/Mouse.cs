@@ -4,9 +4,7 @@ using System.Collections.Generic;
 
 public class Mouse : MonoBehaviour {
 
-    public static Mouse GET;
-
-    public bool hideNativeCursor = true;
+	public bool hideNativeCursor = true;
 	public int reservedLayer = -1;
 	public string cursorUp = "░";
 	public string cursorDown = "█";
@@ -19,8 +17,8 @@ public class Mouse : MonoBehaviour {
 	private float screenXMax = 0f;
 	private float screenYMin = 0f;
 	private float screenYMax = 0f;
-	public Cell currentCell;
-	public Cell currentCellHover;
+	private Cell currentCell;
+	private Cell currentCellHover;
 	private IHoverAction hoverAction;
 	private bool dragging = false;
 	private Vector2 dragStart;
@@ -32,8 +30,7 @@ public class Mouse : MonoBehaviour {
 		if (hideNativeCursor) {
 			Cursor.visible = false;
 		}
-        GET = this;
-    }
+	}
 
 	public IEnumerator Start (){
 
@@ -78,23 +75,29 @@ public class Mouse : MonoBehaviour {
 				Mathf.FloorToInt (((mousePosition.x - screenXMin) / (screenXMax - screenXMin)) * display.displayWidth),
 				Mathf.FloorToInt (((mousePosition.y - screenYMin) / (screenYMax - screenYMin)) * display.displayHeight));
 
-			// clamp cell position within display
-			cellPosition = new Vector2 (
-				Mathf.Clamp (cellPosition.x, 0f, display.displayWidth - 1),
-				Mathf.Clamp (cellPosition.y, 0f, display.displayHeight - 1));
-			
-			// clear current cell
-			if (currentCell != null) {
+            // clamp cell position within display
+            cellPosition = new Vector2(
+                Mathf.Clamp(cellPosition.x, 0f, display.displayWidth - 1),
+                Mathf.Clamp(cellPosition.y, 0f, display.displayHeight - 1)); 
+
+            if (currentCell != null) {
 
 				// get background color to clear to
 				Color clearColor = display.GetBackgroundColorForCell(
 					                   (int)currentCell.position.x, 
 					                   (int)currentCell.position.y,
 					                   reservedLayer);
-				
-				// clear cell content
-				currentCell.SetContent (
+
+                // clear current cell
+                Cell currentUnderCell2 = display.GetNonReservedCell(
+                    (int)currentCell.position.x,
+                    (int)currentCell.position.y,
+                    reservedLayer);
+                    
+                // clear cell content
+                currentCell.SetContent (
 					"",
+                    //currentUnderCell2 != null ? currentUnderCell2.content : "",
 					clearColor, 
 					fadeToClear ? display.clearColor : cursorColor, 
 					cursorFadeTime, 
@@ -115,11 +118,24 @@ public class Mouse : MonoBehaviour {
 				(int)currentCell.position.y,
 				reservedLayer);
 
-			// highlight cell
-			currentCell.SetContent (
-				Input.GetMouseButton (0) || Input.GetMouseButton (1) ? cursorDown : cursorUp,
-				currentCellBackgroundColor,
+            Color currentCellColor = display.GetColorForCell(
+                (int)currentCell.position.x,
+                (int)currentCell.position.y,
+                reservedLayer);
+
+            // clear current cell
+            Cell currentUnderCell = display.GetNonReservedCell(
+                (int)currentCell.position.x,
+                (int)currentCell.position.y,
+                reservedLayer);
+
+            // highlight cell
+            currentCell.SetContent (
+                currentUnderCell == null ? cursorUp : currentUnderCell.content,
+                //currentCell.content,
+                //Input.GetMouseButton (0) || Input.GetMouseButton (1) ? cursorDown : cursorUp,
 				cursorColor,
+                currentCellColor,
 				0f,
 				cursorColor,
 				"");
@@ -130,7 +146,7 @@ public class Mouse : MonoBehaviour {
 					Cell cellHover = display.GetCell (i, currentCell.position.x, currentCell.position.y);
 
 					// hover on topmost layer
-					if (cellHover.content != "") {
+					//if (cellHover.content != "") {
 
 						// set new hover cell
 						currentCellHover = cellHover;
@@ -158,8 +174,8 @@ public class Mouse : MonoBehaviour {
 							hoverAction = null;
 						}
 
-						break;
-					}
+						//break;
+					//}
 				}
 			}
 

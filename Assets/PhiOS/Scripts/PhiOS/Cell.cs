@@ -19,7 +19,7 @@ public class Cell {
 	public IDragAction dragAction;
 	public IScrollAction scrollAction;
 
-    private string targetContent = "";
+	private string targetContent = "";
 	private Color targetColor;
 	private float fadeLeft = 0f;
 	private float fadeMax = 0f;

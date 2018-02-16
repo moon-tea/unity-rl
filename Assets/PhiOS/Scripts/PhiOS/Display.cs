@@ -284,7 +284,63 @@ public class Display : MonoBehaviour {
 		}
 	}
 
-	public void Update(){
+    public Color GetColorForCell(int x, int y, params int[] excludedLayers)
+    {
+
+        if (initialized)
+        {
+            List<int> excludedLayersList = new List<int>(excludedLayers);
+
+            // get background color of cell previous to excluded layers
+            LinkedList<int> topLayer = GetTopLayersForCell(x, y);
+            if (topLayer.First != null && !excludedLayersList.Contains(topLayer.First.Value))
+            {
+                LinkedListNode<int> topLayerNode = topLayer.Last;
+                while (excludedLayersList.Contains(topLayerNode.Value))
+                {
+                    topLayerNode = topLayerNode.Previous;
+                }
+                Cell cell = GetCell(topLayerNode.Value, x, y);
+                return (cell != null) ? cell.color : clearColor;
+            }
+
+            return clearColor;
+        }
+        else
+        {
+            throw new UnityException("Display not yet initialized!");
+        }
+    }
+
+    public Cell GetNonReservedCell(int x, int y, params int[] excludedLayers)
+    {
+
+        if (initialized)
+        {
+            List<int> excludedLayersList = new List<int>(excludedLayers);
+
+            // get background color of cell previous to excluded layers
+            LinkedList<int> topLayer = GetTopLayersForCell(x, y);
+            if (topLayer.First != null && !excludedLayersList.Contains(topLayer.First.Value))
+            {
+                LinkedListNode<int> topLayerNode = topLayer.Last;
+                while (excludedLayersList.Contains(topLayerNode.Value))
+                {
+                    topLayerNode = topLayerNode.Previous;
+                }
+                Cell cell = GetCell(topLayerNode.Value, x, y);
+                return cell;
+            }
+
+            return null;
+        }
+        else
+        {
+            throw new UnityException("Display not yet initialized!");
+        }
+    }
+
+    public void Update(){
 		
 		// finished initializing
 		if (initialized) {
@@ -345,7 +401,7 @@ public class Display : MonoBehaviour {
 
 			// capture screenshot
 			if (Input.GetKeyDown(KeyCode.P)) {
-				Application.CaptureScreenshot("ascii_" + Random.Range(0, int.MaxValue) + ".png");
+				ScreenCapture.CaptureScreenshot("ascii_" + Random.Range(0, int.MaxValue) + ".png");
 			}
 		}
 	}
