@@ -14,7 +14,13 @@ using System.Collections;
 
 public class FirstScene : MonoBehaviour, IClickAction, IHoverAction
 {
-    private Button[] menuButtons;
+    //private Button[] menuButtons;
+    private ButtonList[] menus;
+    private string renderPage;
+    private int clearLayer = -1;
+
+    private ButtonPage buttonPage;
+    private ButtonListPage buttonListPage;
 
     public IEnumerator Start()
     {
@@ -45,18 +51,62 @@ public class FirstScene : MonoBehaviour, IClickAction, IHoverAction
             hoverable: true
         );
 
-        menuButtons = new Button[2];
+        menus = new ButtonList[] {
+            new ButtonList(
+                new Button[] {
+                    new Button(
+                        text: "clear",
+                        mouseDown: delegate {
+                            Debug.Log("clear");
+                            this.renderPage = "";
+                            this.clearLayer = 1;
+                        }
+                    ),
+                    new Button(
+                        text: "Button",
+                        mouseDown: delegate {
+                            Debug.Log("ButtonPage");
+                            this.renderPage = "ButtonPage";
+                            this.clearLayer = 1;
+                        }
+                    ),
+                    new Button(
+                        text: "ButtonList",
+                        mouseDown: delegate {
+                            Debug.Log("ButtonListPage");
+                            this.renderPage = "ButtonListPage";
+                            this.clearLayer = 1;
+                        }
+                    ),
+                    new Button(
+                        text: "a Room"
+                    ),
+                    new Button(
+                        text: "@ walking"
+                   )
+                },
+                x: 1,
+                y: 1,
+                layer: 0
+           )
+        };
+
+        buttonPage = new ButtonPage(x: 20, y: 1);
+        buttonListPage = new ButtonListPage(x: 20, y: 1);
+
+        /*
         menuButtons[0] = new Button(
-            text: "A Button",
-            x: 1,
+            text: "a Room",
+            x: 0,
             y: 1
         );
 
         menuButtons[1] = new Button(
-            text: "Bigger Button",
-            x: 1,
+            text: "@ Walking",
+            x: 0,
             y: 2
         );
+        */
 
         /*for (int x = 0; x < menu.Length; x++)
         {
@@ -106,27 +156,42 @@ public class FirstScene : MonoBehaviour, IClickAction, IHoverAction
     public void Update()
     {
         // clear every cell on layer 1 with mouse click
-        if (Input.GetMouseButtonDown(0))
+        //if (Input.GetMouseButtonDown(0))
+        if (this.clearLayer > -1)
         {
             for (int x = 0; x < Display.GetDisplayWidth(); x++)
             {
                 for (int y = 0; y < Display.GetDisplayHeight(); y++)
                 {
-                    Cell cell = Display.CellAt(1, x, y);
+                    Cell cell = Display.CellAt(clearLayer, x, y);
                     cell.Clear();
+                }
+            }
+            this.clearLayer = -1;
+        }
+
+        if (menus != null)
+        {
+            for (int i = 0; i < menus.Length; i++)
+            {
+                if (menus[i] != null)
+                {
+                    menus[i].render();
                 }
             }
         }
 
-        if (menuButtons != null)
+        switch (renderPage)
         {
-            for (int i = 0; i < menuButtons.Length; i++)
-            {
-                if (menuButtons[i] != null && menuButtons[i].isDirty())
-                {
-                    menuButtons[i].render();
-                }
-            }
+            case "ButtonPage":
+                buttonPage.render();
+                break;
+            case "ButtonListPage":
+                buttonListPage.render();
+                break;
+            default:
+                Debug.Log("!!PAGE NOT DEFINED!!");
+                break;
         }
     }
 

@@ -6,8 +6,8 @@ public class Button : IClickAction, IHoverAction
 {
     public Button(
         string text,
-        int x,
-        int y,
+        int x = 0,
+        int y = 0,
         int layer = 0,
         int width = -1,
         Color? bgColor = null,
@@ -32,13 +32,13 @@ public class Button : IClickAction, IHoverAction
         this.bgColor = bgColor ?? Color.Lerp(Color.blue, Color.white, .3f);
         this.fgColor = fgColor ?? Color.white;
 
-        render();
+        //render();
     }
 
     private string text;
-    private int x;
-    private int y;
-    private int layer;
+    public int x;
+    public int y;
+    public int layer;
     private int width;
     private Color fgColor;
     private Color bgColor;
@@ -50,7 +50,7 @@ public class Button : IClickAction, IHoverAction
     private bool hoverable;
     private bool hovered;
     private bool clicked;
-    private bool dirty;
+    public bool dirty = true;
 
     public bool isDirty()
     {
