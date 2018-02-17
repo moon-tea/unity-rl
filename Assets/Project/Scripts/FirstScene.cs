@@ -19,6 +19,7 @@ public class FirstScene : MonoBehaviour, IClickAction, IHoverAction
     private string renderPage;
     private int clearLayer = -1;
 
+    private DescriptionPage descriptionPage;
     private ButtonPage buttonPage;
     private ButtonListPage buttonListPage;
 
@@ -63,6 +64,14 @@ public class FirstScene : MonoBehaviour, IClickAction, IHoverAction
                         }
                     ),
                     new Button(
+                        text: "Description",
+                        mouseDown: delegate {
+                            Debug.Log("DescriptionPage");
+                            this.renderPage = "DescriptionPage";
+                            this.clearLayer = 1;
+                        }
+                    ),
+                    new Button(
                         text: "Button",
                         mouseDown: delegate {
                             Debug.Log("ButtonPage");
@@ -93,6 +102,7 @@ public class FirstScene : MonoBehaviour, IClickAction, IHoverAction
 
         buttonPage = new ButtonPage(x: 20, y: 1);
         buttonListPage = new ButtonListPage(x: 20, y: 1);
+        descriptionPage = new DescriptionPage(x: 20, y: 1);
 
         /*
         menuButtons[0] = new Button(
@@ -183,6 +193,9 @@ public class FirstScene : MonoBehaviour, IClickAction, IHoverAction
 
         switch (renderPage)
         {
+            case "DescriptionPage":
+                descriptionPage.render();
+                break;
             case "ButtonPage":
                 buttonPage.render();
                 break;

@@ -44,8 +44,8 @@ public class Description
         this.y = y;
         this.width = width;
         this.height = height > -1 ? height : lines.Count;
-        this.bgColor = bgColor ?? Color.black;
-        this.fgColor = fgColor ?? Color.white;
+        this.bgColor = bgColor ?? Color.Lerp(Color.black, Color.white, 0.05f);
+        this.fgColor = fgColor ?? Color.Lerp(Color.white, Color.black, 0.15f);
         this.layer = layer;
     }
 
