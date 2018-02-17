@@ -184,6 +184,33 @@ public class Display : MonoBehaviour {
 		}
 	}
 
+    public Cell GetDisplayCell(int x, int y, params int[] excludedLayers)
+    {
+        if (initialized)
+        {
+            List<int> excludedLayersList = new List<int>(excludedLayers);
+
+            // get background color of cell previous to excluded layers
+            LinkedList<int> topLayer = GetTopLayersForCell(x, y);
+            if (topLayer.First != null && !excludedLayersList.Contains(topLayer.First.Value))
+            {
+                LinkedListNode<int> topLayerNode = topLayer.Last;
+                while (excludedLayersList.Contains(topLayerNode.Value))
+                {
+                    topLayerNode = topLayerNode.Previous;
+                }
+                Cell cell = GetCell(topLayerNode.Value, x, y);
+                return cell;
+            }
+
+            return null;
+        }
+        else
+        {
+            throw new UnityException("Display not yet initialized!");
+        }
+    }
+
 	public void AddCellAsTopLayer(Cell c){
 
 		if (initialized) {

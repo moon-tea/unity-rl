@@ -20,7 +20,7 @@ public class ButtonPage
                x: 20,
                y: description.y + description.height + 1,
                layer: 1
-            )
+            ),
         };
 	}   
 

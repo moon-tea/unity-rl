@@ -142,11 +142,11 @@ public class Mouse : MonoBehaviour {
 
 			// hover
 			if (!dragging) {
-				for (int i = display.GetNumLayers() - 1; i >= 0; i--) {
-					Cell cellHover = display.GetCell (i, currentCell.position.x, currentCell.position.y);
+				//for (int i = display.GetNumLayers() - 1; i >= 0; i--) {
+					Cell cellHover = display.GetDisplayCell((int)currentCell.position.x, (int)currentCell.position.y, reservedLayer);
 
 					// hover on topmost layer
-					//if (cellHover.content != "") {
+					if (cellHover != null) {
 
 						// set new hover cell
 						currentCellHover = cellHover;
@@ -167,7 +167,6 @@ public class Mouse : MonoBehaviour {
 								hoverAction.OnHoverEnter();
 							}
 						}
-
 						// new hover cell has no hover action, just exit current hover action
 						else if (hoverAction != null) {
 							hoverAction.OnHoverExit();
@@ -175,8 +174,16 @@ public class Mouse : MonoBehaviour {
 						}
 
 						//break;
-					//}
-				}
+					}
+                    else
+                    {
+                        if (hoverAction != null)
+                        {
+                            hoverAction.OnHoverExit();
+                            hoverAction = null;
+                        }
+                    }
+				//}
 			}
 
 			// click

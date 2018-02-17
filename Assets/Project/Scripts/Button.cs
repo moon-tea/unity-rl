@@ -108,7 +108,7 @@ public class Button : IClickAction, IHoverAction
     public void OnHoverEnter()
     {
         hoverEnterCallBack(this);
-        //Debug.Log("hovered");
+        Debug.Log("hovered");
         hovered = true;
         dirty = true;
     }
@@ -116,7 +116,7 @@ public class Button : IClickAction, IHoverAction
     public void OnHoverExit()
     {
         hoverExitCallBack(this);
-        //Debug.Log("unhovered");
+        Debug.Log("unhovered");
         hovered = false;
         dirty = true;
     }
