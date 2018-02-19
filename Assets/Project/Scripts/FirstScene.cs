@@ -24,6 +24,7 @@ public class FirstScene : MonoBehaviour, IClickAction, IHoverAction
     private ButtonListPage buttonListPage;
     private PlayerPage playerPage;
     private MapPage mapPage;
+    private ContainerPage containerPage;
 
     public IEnumerator Start()
     {
@@ -104,6 +105,14 @@ public class FirstScene : MonoBehaviour, IClickAction, IHoverAction
                             this.renderPage = "MapPage";
                             this.clearLayer = 1;
                         }
+                    ),
+                    new Button(
+                        text: "Container",
+                        mouseDown: delegate {
+                            Debug.Log("ContainerPage");
+                            this.renderPage = "ContainerPage";
+                            this.clearLayer = 1;
+                        }
                     )
                 },
                 x: 1,
@@ -117,6 +126,7 @@ public class FirstScene : MonoBehaviour, IClickAction, IHoverAction
         descriptionPage = new DescriptionPage(x: 20, y: 1);
         playerPage = new PlayerPage(x: 20, y: 1);
         mapPage = new MapPage(x: 20, y: 1);
+        containerPage = new ContainerPage(x: 20, y: 1);
 
         /*
         menuButtons[0] = new Button(
@@ -221,6 +231,9 @@ public class FirstScene : MonoBehaviour, IClickAction, IHoverAction
                 break;
             case "MapPage":
                 mapPage.render();
+                break;
+            case "ContainerPage":
+                containerPage.render();
                 break;
             default:
                 Debug.Log("!!PAGE NOT DEFINED!!");

@@ -18,13 +18,21 @@ public class Player
     public int x;
     public int y;
     public int layer;
+    Map map;
 
     private float inputRate = .15f;
     private float timeOfLastInput = 0f;
 
+    public void addMapData(Map m)
+    {
+        map = m;
+    }
+
     void setX (int x)
     {
-        if (x >= 0 && x < Display.GetDisplayWidth())
+        if (x >= 0 
+            && x < Display.GetDisplayWidth()
+            && !map.tileAt(x,y).obstructsPassability)
         {
             this.x = x;
         }
@@ -32,7 +40,9 @@ public class Player
 
     void setY(int y)
     {
-        if (y >= 0 && y < Display.GetDisplayHeight())
+        if (y >= 0 
+            && y < Display.GetDisplayHeight()
+            && !map.tileAt(x, y).obstructsPassability)
         {
             this.y = y;
         }

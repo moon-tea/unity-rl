@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public class Map
 {
@@ -48,6 +49,15 @@ public class Map
                 }
             }
         }
+    }
+
+    public Tile tileAt(int _x, int _y)
+    {
+        Debug.Log(_x);
+        Debug.Log(x);
+        Debug.Log(_y);
+        Debug.Log(y);
+        return tiles[_x-x, _y-y];
     }
 
     public int x;
