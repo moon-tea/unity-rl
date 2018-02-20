@@ -17,7 +17,7 @@ public class Tile
         this.ch = ch;
         this.x = x;
         this.y = y;
-        this.layer = layer;    
+        this.layer = layer;
         this.bgColor = bgColor ?? Color.black;
         this.fgColor = fgColor ?? Color.white;
         this.setObstructsEverything(obstructsEverything);
