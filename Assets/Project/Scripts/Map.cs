@@ -101,8 +101,8 @@ public class Map
                         x: i,
                         y: j,
                         obstructsEverything: true,
-                        fgColor: Tile.WallfgColor,
-                        bgColor: Tile.WallbgColor
+                        fgColor: RlColor.getColor(RlColor.WallfgColor),
+                        bgColor: RlColor.getColor(RlColor.WallbgColor)
                     );
                 } 
                 else
@@ -111,8 +111,8 @@ public class Map
                         ch: ".",
                         x: i,
                         y: j,
-                        fgColor: Tile.FloorfgColor,
-                        bgColor: Tile.FloorbgColor
+                        fgColor: RlColor.getColor(RlColor.FloorfgColor),
+                        bgColor: RlColor.getColor(RlColor.FloorbgColor)
                     );
                 }
             }
